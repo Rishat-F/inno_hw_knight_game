@@ -1,4 +1,4 @@
-#Герой и чудовища
+##Герой и чудовища
 
 **Задание**
 
@@ -31,9 +31,9 @@
 
 **Проверка качества кода:**
 
-flake8 --max-line-length=120 .
-pep257 .
-mypy . --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs --check-untyped-defs  --disallow-untyped-decorators --ignore-missing-imports --pretty
+- flake8 --max-line-length=120 .
+- pep257 .
+- mypy . --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs --check-untyped-defs  --disallow-untyped-decorators --ignore-missing-imports --pretty
 
 **Требования для автоматической проверки решения юнит-тестами:**
 
