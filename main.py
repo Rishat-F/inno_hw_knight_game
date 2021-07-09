@@ -41,31 +41,31 @@ def game():
                   f'Ваше текущее здоровье составляет {hp} ед.\n')
         elif meeting[0] == 'sword':
             sword_attack = meeting[1]
-            _input = input(
+            choice = input(
                 f'Вы нашли МЕЧ, который дает {sword_attack} ед. урона.\n'
                 f'Ваша текущая атака составляет {attack} ед. урона.\n'
                 f'Чтобы заменить свой старый меч на новый, введите 1.\n'
                 f'Чтобы оставить свой старый меч, введите 2.\n'
                 )
             while True:
-                if _input == '2':
+                if choice == '2':
                     print(f'Вы оставили свой старый меч с '
                           f'атакой в {attack} ед. урона.\n')
                     break
-                elif _input == '1':
+                elif choice == '1':
                     attack = sword_attack
                     print(f'Вы взяли новый меч и ваша атака теперь '
                           f'составляет {attack} ед. урона.\n')
                     break
                 else:
-                    _input = input('Некорректный ввод.\nВведите 1, чтобы '
+                    choice = input('Некорректный ввод.\nВведите 1, чтобы '
                                    'заменить свой старый меч на новый.\n'
                                    'Введите 2, чтобы оставить '
                                    'свой старый меч.\n')
         else:
             monster_hp = meeting[1]
             monster_attack = meeting[2]
-            _input = input(
+            choice = input(
                 f'БОЙ! На вас напало чудовище с {monster_hp} ед. '
                 f'здоровья и с атакой в {monster_attack} ед. урона.\n'
                 f'Ваше текущее здоровье составляет {hp} ед.\n'
@@ -74,7 +74,7 @@ def game():
                 f'Введите 2, чтобы убежать.\n'
                 )
             while True:
-                if _input == '1':
+                if choice == '1':
                     print('Вы вступили в схватку с чудовищем!\n')
                     while hp > 0 and monster_hp > 0:
                         hp -= monster_attack
@@ -98,11 +98,11 @@ def game():
                                 'Королевство от уничтожения!\nИгра окончена.\n'
                                 )
                     break
-                elif _input == '2':
+                elif choice == '2':
                     print('Вы убежали.\n')
                     break
                 else:
-                    _input = input(
+                    choice = input(
                         'Некорректный ввод.\nВведите 1, чтобы заменить свой '
                         'старый меч на новый.\nВведите 2, чтобы оставить '
                         'свой старый меч.\n'
