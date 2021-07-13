@@ -1,3 +1,4 @@
+import os
 import random
 import typing
 
@@ -5,6 +6,36 @@ import typing
 monster_counter = 0
 hp = 10
 attack = 10
+
+
+def greeting() -> bool:
+    """Create greeting prompt for the player.
+
+    Returns:
+        Boolean depending on whether the player wants to start the game.
+    """
+    os.system("cls")
+    print(
+        '\nДобро пожаловать в сказочную игру "Герой и Монстры"!\n\n'
+        "Королевству угрожает нападение со стороны 10 монстров!\n"
+        "Лишь отважные и сильные способны спасти Королевство...\n"
+    )
+    choice = input("Готовы бросить вызов опасности? [y/n]\n").lower()
+    while choice not in ("y", "n", "yes", "no", "\n", ""):
+        choice = input('\nВведите "y" или "no" чтобы продолжить игру:\n')
+    if choice.startswith("y") or choice in ("\n", ""):
+        return True
+    return False
+
+
+def pretty_print() -> None:
+    """Print stats and game steps in pretty view."""
+    os.system("cls")
+    print(
+        f"----------------------------------------------\n"
+        f"hp: {hp}   attack: {attack}   monsters_counter: {10 - monster_counter}\n"
+        f"----------------------------------------------"
+    )
 
 
 def create_monster() -> typing.Tuple[str, int, int]:
@@ -17,8 +48,8 @@ def create_monster() -> typing.Tuple[str, int, int]:
         ('monster', 10, 5)
         It means that monster has 10 hp and his attack is equal 5.
     """
-    monster_hp = random.randint(8, 14)
-    monster_attack = random.randint(6, 10)
+    monster_hp = random.randint(6, 11)
+    monster_attack = random.randint(5, 9)
     return "monster", monster_hp, monster_attack
 
 
@@ -69,86 +100,77 @@ def game() -> None:
     global hp
     global attack
     while hp > 0 and monster_counter < 10:
+        input("\n\tНажмите ENTER, чтобы перейти к следующему ходу\n")
+        pretty_print()
         meeting = random_meeting()
         if meeting[0] == "apple":
             hp_boost = meeting[1]
             hp += hp_boost
+            pretty_print()
             print(
                 f"\nВы нашли яблоко и съели его.\n"
-                f"Кол-во единиц здоровья увеличилось на {hp_boost}.\n"
-                f"Ваше текущее здоровье составляет {hp} ед."
+                f"Кол-во единиц здоровья увеличилось на {hp_boost}."
             )
         elif meeting[0] == "sword":
             sword_attack = meeting[1]
-            print(
-                f"\nВы нашли MEЧ, который дает {sword_attack} ед. урона.\n"
-                f"Ваша текущая атака составляет {attack} ед. урона."
-            )
+            print(f"\nВы нашли MEЧ, который дает {sword_attack} ед. урона.")
             choice = input(
-                "\nЧтобы заменить свой старый меч на новый, введите 1.\n"
-                "Чтобы оставить свой старый меч, введите 2.\n"
+                "\n\tЧтобы заменить свой старый меч на новый, введите 1.\n"
+                "\tЧтобы оставить свой старый меч, введите 2.\n"
             )
             while True:
                 if choice == "2":
-                    print(
-                        f"\nВы оставили свой старый меч с "
-                        f"атакой в {attack} ед. урона."
-                    )
+                    pretty_print()
+                    print("\nВы оставили свой старый меч.")
                     break
                 elif choice == "1":
                     attack = sword_attack
-                    print(
-                        f"\nВы взяли новый меч и ваша атака теперь "
-                        f"составляет {attack} ед. урона."
-                    )
+                    pretty_print()
+                    print("\nВы подобрали новый меч.")
                     break
                 else:
                     choice = input(
-                        "\nНекорректный ввод.\nВведите 1, чтобы заменить свой "
-                        "старый меч на новый.\n"
-                        "Введите 2, чтобы оставить свой старый меч.\n"
+                        "\nНекорректный ввод.\n\tВведите 1, чтобы заменить "
+                        "свой старый меч на новый.\n"
+                        "\tВведите 2, чтобы оставить свой старый меч.\n"
                     )
         else:
             monster_hp = meeting[1]
             monster_attack = meeting[2]
             print(
                 f"\nБОЙ! На вас напало чудовище с {monster_hp} ед. "
-                f"здоровья и с атакой в {monster_attack} ед. урона.\n"
-                f"Ваше текущее здоровье составляет {hp} ед.\n"
-                f"Ваша атака составляет {attack} ед. урона."
+                f"здоровья и с атакой в {monster_attack} ед. урона."
             )
             choice = input(
-                "\nВведите 1, чтобы вступить в схватку с чудовищем.\n"
-                "Введите 2, чтобы убежать.\n"
+                "\n\tВведите 1, чтобы вступить в схватку с чудовищем.\n"
+                "\tВведите 2, чтобы убежать.\n"
             )
             while True:
                 if choice == "1":
-                    print("\nВы вступили в схватку с чудовищем!")
                     while hp > 0 and monster_hp > 0:
                         hp -= monster_attack
                         monster_hp -= attack
                     if hp > 0:
                         monster_counter += 1
                         if monster_counter != 10:
-                            print(
-                                f"\nВы одолели чудовище! Но оно оставило вам "
-                                f"{hp} ед. здоровья.\nЧтобы спасти "
-                                f"Королевство осталось одолеть еще "
-                                f"{10 - monster_counter} чудовищ."
-                            )
+                            pretty_print()
+                            print("\nВы одолели чудовище!")
                     break
                 elif choice == "2":
+                    pretty_print()
                     print("\nВы убежали.")
                     break
                 else:
                     choice = input(
-                        "\nНекорректный ввод.\nВведите 1, чтобы вступить "
+                        "\nНекорректный ввод.\n\tВведите 1, чтобы вступить "
                         "в схватку с чудовищем.\n"
-                        "Введите 2, чтобы убежать.\n"
+                        "\tВведите 2, чтобы убежать.\n"
                     )
     if hp <= 0:
+        pretty_print()
         print("\nМонстр вас убил. ПОРАЖЕНИЕ!\n\nИгра окончена.\n")
     else:
+        pretty_print()
         print(
             "\nПОБЕДА!\nВы одолели 10 чудовищ и спасли "
             "Королевство от уничтожения!\n\nИгра окончена.\n"
@@ -160,4 +182,16 @@ def game() -> None:
 
 
 if __name__ == "__main__":
-    game()
+    if greeting():
+        pretty_print()
+        print("\nИгра началась, удачи!")
+        game()
+    else:
+        os.system("cls")
+        print(
+            "\nМного смельчаков пало в битве с монстрами...\n"
+            "Но никто не смог остановить их.\n"
+            "В итоге Королевство было разрушено чудовищами...\n\n"
+            "Вы проиграли!\n\n"
+            "Игра окончена."
+        )
