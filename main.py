@@ -14,7 +14,7 @@ def greeting() -> bool:
     Returns:
         Boolean depending on whether the player wants to start the game.
     """
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
     print(
         '\nДобро пожаловать в сказочную игру "Герой и Монстры"!\n\n'
         "Королевству угрожает нападение со стороны 10 монстров!\n"
@@ -30,7 +30,7 @@ def greeting() -> bool:
 
 def pretty_print() -> None:
     """Print stats and game steps in pretty view."""
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
     print(
         f"----------------------------------------------\n"
         f"hp: {hp}   attack: {attack}   monsters_counter: {10 - monster_counter}\n"
@@ -187,7 +187,7 @@ if __name__ == "__main__":
         print("\nИгра началась, удачи!")
         game()
     else:
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
         print(
             "\nМного смельчаков пало в битве с монстрами...\n"
             "Но никто не смог остановить их.\n"
