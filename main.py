@@ -6,6 +6,14 @@ import typing
 monster_counter = 0
 hp = 10
 attack = 10
+APPLE = "apple"
+SWORD = "sword"
+MONSTER = "monster"
+
+
+def clear_terminal() -> None:
+    """Clear terminal window."""
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 def greeting() -> bool:
@@ -14,7 +22,7 @@ def greeting() -> bool:
     Returns:
         Boolean depending on whether the player wants to start the game.
     """
-    os.system("cls" if os.name == "nt" else "clear")
+    clear_terminal()
     print(
         '\nДобро пожаловать в сказочную игру "Герой и Монстры"!\n\n'
         "Королевству угрожает нападение со стороны 10 монстров!\n"
@@ -30,7 +38,7 @@ def greeting() -> bool:
 
 def pretty_print() -> None:
     """Print stats and game steps in pretty view."""
-    os.system("cls" if os.name == "nt" else "clear")
+    clear_terminal()
     print(
         f"----------------------------------------------\n"
         f"hp: {hp}   attack: {attack}   monsters_counter: {10 - monster_counter}\n"
@@ -50,7 +58,7 @@ def create_monster() -> typing.Tuple[str, int, int]:
     """
     monster_hp = random.randint(6, 11)
     monster_attack = random.randint(5, 9)
-    return "monster", monster_hp, monster_attack
+    return MONSTER, monster_hp, monster_attack
 
 
 def create_apple() -> typing.Tuple[str, int]:
@@ -64,7 +72,7 @@ def create_apple() -> typing.Tuple[str, int]:
         It means that 'apple' will restore 5 hp.
     """
     apple_hp = random.randint(3, 7)
-    return "apple", apple_hp
+    return APPLE, apple_hp
 
 
 def create_sword() -> typing.Tuple[str, int]:
@@ -78,7 +86,7 @@ def create_sword() -> typing.Tuple[str, int]:
         It means that 'sword' has attack equal to 11.
     """
     sword_attack = random.randint(6, 13)
-    return "sword", sword_attack
+    return SWORD, sword_attack
 
 
 def random_meeting() -> tuple:
@@ -103,7 +111,7 @@ def game() -> None:
         input("\n\tНажмите ENTER, чтобы перейти к следующему ходу\n")
         pretty_print()
         meeting = random_meeting()
-        if meeting[0] == "apple":
+        if meeting[0] == APPLE:
             hp_boost = meeting[1]
             hp += hp_boost
             pretty_print()
@@ -111,29 +119,26 @@ def game() -> None:
                 f"\nВы нашли яблоко и съели его.\n"
                 f"Кол-во единиц здоровья увеличилось на {hp_boost}."
             )
-        elif meeting[0] == "sword":
+        elif meeting[0] == SWORD:
             sword_attack = meeting[1]
             print(f"\nВы нашли MEЧ, который дает {sword_attack} ед. урона.")
             choice = input(
                 "\n\tЧтобы заменить свой старый меч на новый, введите 1.\n"
                 "\tЧтобы оставить свой старый меч, введите 2.\n"
             )
-            while True:
-                if choice == "2":
-                    pretty_print()
-                    print("\nВы оставили свой старый меч.")
-                    break
-                elif choice == "1":
-                    attack = sword_attack
-                    pretty_print()
-                    print("\nВы подобрали новый меч.")
-                    break
-                else:
-                    choice = input(
-                        "\nНекорректный ввод.\n\tВведите 1, чтобы заменить "
-                        "свой старый меч на новый.\n"
-                        "\tВведите 2, чтобы оставить свой старый меч.\n"
-                    )
+            while choice not in ("1", "2"):
+                choice = input(
+                    "\nНекорректный ввод.\n\tВведите 1, чтобы заменить "
+                    "свой старый меч на новый.\n"
+                    "\tВведите 2, чтобы оставить свой старый меч.\n"
+                )
+            if choice == "2":
+                pretty_print()
+                print("\nВы оставили свой старый меч.")
+            else:
+                attack = sword_attack
+                pretty_print()
+                print("\nВы подобрали новый меч.")
         else:
             monster_hp = meeting[1]
             monster_attack = meeting[2]
@@ -145,27 +150,24 @@ def game() -> None:
                 "\n\tВведите 1, чтобы вступить в схватку с чудовищем.\n"
                 "\tВведите 2, чтобы убежать.\n"
             )
-            while True:
-                if choice == "1":
-                    while hp > 0 and monster_hp > 0:
-                        hp -= monster_attack
-                        monster_hp -= attack
-                    if hp > 0:
-                        monster_counter += 1
-                        if monster_counter != 10:
-                            pretty_print()
-                            print("\nВы одолели чудовище!")
-                    break
-                elif choice == "2":
-                    pretty_print()
-                    print("\nВы убежали.")
-                    break
-                else:
-                    choice = input(
-                        "\nНекорректный ввод.\n\tВведите 1, чтобы вступить "
-                        "в схватку с чудовищем.\n"
-                        "\tВведите 2, чтобы убежать.\n"
-                    )
+            while choice not in ("1", "2"):
+                choice = input(
+                    "\nНекорректный ввод.\n\tВведите 1, чтобы вступить "
+                    "в схватку с чудовищем.\n"
+                    "\tВведите 2, чтобы убежать.\n"
+                )
+            if choice == "1":
+                while hp > 0 and monster_hp > 0:
+                    hp -= monster_attack
+                    monster_hp -= attack
+                if hp > 0:
+                    monster_counter += 1
+                    if monster_counter != 10:
+                        pretty_print()
+                        print("\nВы одолели чудовище!")
+            else:
+                pretty_print()
+                print("\nВы убежали.")
     if hp <= 0:
         pretty_print()
         print("\nМонстр вас убил. ПОРАЖЕНИЕ!\n\nИгра окончена.\n")
@@ -187,7 +189,7 @@ if __name__ == "__main__":
         print("\nИгра началась, удачи!")
         game()
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        clear_terminal()
         print(
             "\nМного смельчаков пало в битве с монстрами...\n"
             "Но никто не смог остановить их.\n"
